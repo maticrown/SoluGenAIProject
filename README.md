@@ -3,6 +3,18 @@
 This repository contains my solution for the home assignment given by **SoluGenAI**  
 for the position of **Senior Python Developer**.
 
+## How To Install
+# To run this project locally, make sure you have Python 3.8+ installed
+# Then, install the required dependencies:
+pip install -r requirements.txt
+# This project uses only one external dependency: opencv-python
+
+## ▶️ How to Run
+# Note: enter the link to the video required for input, below is an example. Change accordingly 
+
+#bash
+python main.py "https://github.com/opencv/opencv/raw/master/samples/data/vtest.avi"
+
 ---
 
 ## ✅ Stage 1 – Motion Detection Pipeline
@@ -29,14 +41,6 @@ This stage implements the basic video processing pipeline, consisting of three i
 
 ---
 
-## ▶️ How to Run
-# Note: enter the link to the video required for input, below is an example 
-
-#bash
-python main.py "https://github.com/opencv/opencv/raw/master/samples/data/vtest.avi"
-
----
-
 ## ✅ Stage 2 – Blurring Detected Motion
 
 In this stage, motion detection is enhanced by applying **Gaussian blur**  
@@ -53,8 +57,6 @@ to all detected regions before displaying the frame.
 
 ### 🎥 Visual Effect:
 Each object in motion appears blurred in the display window, while the rest of the frame remains sharp.
-
----
 
 ---
 
