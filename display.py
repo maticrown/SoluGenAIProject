@@ -44,7 +44,7 @@ def display_frames(input_queue):
             #  (covering the whole picture for example) or if there are hundreds
             #  of detections per frame, in almost all cases this won't be a problem here
             #  but in extreme cases there are ways to improve the efficiency such as minimizing the kernel size
-            blurred_roi = cv2.GaussianBlur(roi, (51, 51), 0)
+            blurred_roi = cv2.GaussianBlur(roi, (31, 31), 0)
 
             # Replace the original region with the blurred version
             frame[y:y+h, x:x+w] = blurred_roi
