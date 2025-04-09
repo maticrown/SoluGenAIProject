@@ -34,3 +34,26 @@ This stage implements the basic video processing pipeline, consisting of three i
 
 ```bash
 python main.py "https://github.com/opencv/opencv/raw/master/samples/data/vtest.avi"
+
+---
+
+## ✅ Stage 2 – Blurring Detected Motion
+
+In this stage, motion detection is enhanced by applying **Gaussian blur**  
+to all detected regions before displaying the frame.
+
+### ✔️ Key Updates:
+- **Blurring is done only inside the `display.py` component**, as required.
+- The system continues to show a live timestamp and support real-time streaming.
+
+### 📌 Technical Notes:
+- **Gaussian blur** was selected for its smooth and natural effect, suitable for masking motion.
+- Blurring kernel size is `(51, 51)`, which can be adjusted for performance or effect.
+- The blurring is applied only to bounding boxes (`ROI`) received from the detector.
+
+### 🎥 Visual Effect:
+Each object in motion appears blurred in the display window, while the rest of the frame remains sharp.
+
+---
+
+⬜ Stage 3 – Graceful shutdown of all processes

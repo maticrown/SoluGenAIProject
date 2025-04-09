@@ -17,8 +17,27 @@ def display_frames(input_queue):
         frame, detections = input_queue.get()
 
         for (x, y, w, h) in detections:
+            # Extract the region of interest (ROI) based on
+            # the bounding box
+            roi = frame[y:y+h, x:x+w]
+
+            # step 2 - Blurring algorithm
+            # Apply Gaussian blur to the ROI
+            # Why Gaussian Blur?
+            # - Smooth, natural-looking result
+            # - Preserves shape while masking detail
+            # - Performs well in real-time (optimized in OpenCV)
+            #  This Blurring algorithm works well when the ROI isn't so big
+            #  (covering the whole picture for example) or if there are hundreds
+            #  of detections per frame, in almost all cases this won't be a problem here
+            #  but in extreme cases there are ways to improve the efficiency such as minimizing the kernel size
+            blurred_roi = cv2.GaussianBlur(roi, (51, 51), 0)
+
+            # Replace the original region with the blurred version
+            frame[y:y+h, x:x+w] = blurred_roi
+
             # Draw bounding boxes around detected motion
-            cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
+            # cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
 
         # Add current timestamp at the top-left corner
         timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")

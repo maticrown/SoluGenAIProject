@@ -50,10 +50,6 @@ def detect_motion(input_queue, output_queue):
         thresh = cv2.threshold(frame_delta, 25, 255, cv2.THRESH_BINARY)[1]
         thresh = cv2.dilate(thresh, None, iterations=2)
 
-        # Show the binary mask of movement (for debugging)
-        cv2.imshow("Motion Mask", thresh)
-        cv2.waitKey(1)
-
         # Find contours around detected regions
         contours, _ = cv2.findContours(
             thresh.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE
