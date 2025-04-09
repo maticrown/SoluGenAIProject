@@ -21,10 +21,17 @@ def detect_motion(input_queue, output_queue):
     while True:
         # Receive frame from streamer
         # blocking call – waits for frame
-        frame = input_queue.get()
-        if frame is None:
-            print("[Detector] Received None frame – skipping")
-            continue
+        data = input_queue.get()
+
+        # Check for termination signal (sent as a string "END")
+        if isinstance(data, str) and data == "END":
+            # Forward the END signal to the display process
+            output_queue.put("END")
+            print("[Detector] Received END signal. Exiting.")
+            break
+
+        # Otherwise, we assume it's a valid video frame
+        frame = data
         frame_count += 1
 
         # Convert to grayscale to simplify processing

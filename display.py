@@ -10,12 +10,25 @@ def display_frames(input_queue):
     :param input_queue: Queue receiving frames with detections from the detector
     """
     while True:
-        if input_queue.empty():
-            continue
+        # Wait for the next item from the queue (sent by the detector)
+        data = input_queue.get()
 
-        # Wait for frames from the detector
-        frame, detections = input_queue.get()
+        # Check if the detector signaled termination
+        # "END" is a sentinel value indicating no more frames will be sent
+        if data == "END":
+            print("[Display] Received END signal. Exiting.")
+            break
 
+        # Unpack the tuple into frame and list of motion detections
+        # data is expected to be (frame, detections)
+        frame, detections = data
+
+        # For each detected motion region, apply Gaussian blur
+        # Note: In Stage 1, detections were visualized using green bounding boxes.
+        # In Stage 2, as per assignment requirements, we replace the visual indication
+        # with a blur effect applied only in the display layer.
+        # This ensures the original frame is not altered in earlier components
+        # and maintains full separation between detection and presentation logic.
         for (x, y, w, h) in detections:
             # Extract the region of interest (ROI) based on
             # the bounding box
@@ -49,6 +62,7 @@ def display_frames(input_queue):
 
         # Allow user to quit manually by pressing 'q'
         if cv2.waitKey(33) & 0xFF == ord("q"):  # 30 fps instead of adding 1 as the parameter
+            print("[Display] Manual exit by user.")
             break
 
     # Close the window after exiting

@@ -32,7 +32,7 @@ This stage implements the basic video processing pipeline, consisting of three i
 ## ▶️ How to Run
 # Note: enter the link to the video required for input, below is an example 
 
-```bash
+#bash
 python main.py "https://github.com/opencv/opencv/raw/master/samples/data/vtest.avi"
 
 ---
@@ -56,4 +56,37 @@ Each object in motion appears blurred in the display window, while the rest of t
 
 ---
 
-⬜ Stage 3 – Graceful shutdown of all processes
+---
+
+## ✅ Stage 3 – Graceful Termination
+
+This stage ensures that all processes (streamer, detector, and display) exit cleanly once the video ends.
+
+### ✔️ Key Behavior:
+- When the video stream ends, the **streamer sends a sentinel value `"END"`**.
+- The **detector receives "END"**, forwards it to the display, and stops.
+- The **display** exits when it receives `"END"`, or immediately if the user presses `q`.
+
+### 🔄 Why it matters:
+Without graceful shutdown, some processes may remain hanging in memory, waiting forever for new data.  
+This design guarantees a complete and clean pipeline teardown with no orphaned processes.
+
+### 💬 Notes:
+- The streamer may finish first, but the other processes will continue until they have processed all queued frames.
+- The short delay between streamer exit and full shutdown is intentional and ensures no data is lost.
+
+---
+
+## 📅 Status
+
+✅ Stage 1 – Motion detection  
+✅ Stage 2 – Blurring motion regions  
+✅ Stage 3 – Graceful termination and process shutdown  
+
+## 🚦 Pipeline Overview
+
+| Stage  | Description                         | Status |
+|--------|-------------------------------------|--------|
+| 1      | Motion detection with bounding boxes | ✅ Done |
+| 2      | Blurring of detected regions        | ✅ Done |
+| 3      | Clean shutdown of all processes     | ✅ Done |
