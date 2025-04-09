@@ -48,3 +48,5 @@ if __name__ == "__main__":
 
     # Run the main function with the provided video path
     main(args.video_path)
+
+    print("[Main] All processes finished.")
